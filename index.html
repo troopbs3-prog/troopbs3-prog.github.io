@@ -380,21 +380,6 @@
           <div style="text-align:center;margin-top:1.4rem">
             <button type="button" class="btn btn-accent" style="min-height:3rem;padding:.6rem 1.8rem;font-size:1rem" onclick="startNew('emas','gratis')">Buat Undangan Sekarang — Gratis</button>
           </div>
-          <!-- Tangkap leads: pengunjung isi nama + nomor WA, terkirim ke WhatsApp pemilik -->
-          <div class="panel panel-wa" id="lead-panel" style="margin-top:1.4rem;text-align:left">
-            <h2 class="font-display" style="font-size:1.25rem">Mau Lihat Contoh Dulu? Kami Kirim ke WhatsApp Kamu</h2>
-            <p class="sec-sub">Isi nama + nomor WA, kami kirim 1 contoh undangan gratis + info paket. Tanpa spam, tanpa dipaksa beli.</p>
-            <form id="lead-form" onsubmit="return sendLead(event)">
-              <label class="fl" for="lead-nama">Nama kamu</label>
-              <input class="inp" id="lead-nama" type="text" placeholder="cth: Sinta &amp; Budi" autocomplete="name" required />
-              <label class="fl" for="lead-wa">Nomor WhatsApp kamu</label>
-              <input class="inp" id="lead-wa" type="tel" inputmode="tel" placeholder="cth: 0812xxxxxxx" autocomplete="tel" required />
-              <label class="fl" for="lead-tgl">Tanggal nikah <span class="hint">(boleh kosong)</span></label>
-              <input class="inp" id="lead-tgl" type="date" />
-              <button type="submit" class="btn btn-wa btn-block" style="margin-top:1rem;min-height:3rem">📩 Kirim Contoh ke WhatsApp Saya</button>
-              <p style="font-size:.8rem;color:var(--dim);margin:.6rem 0 0">Dengan mengirim, kamu setuju dihubungi via WhatsApp soal undangan ini.</p>
-            </form>
-          </div>
           <figure style="margin:1.6rem 0 0">
             <video class="hero-video" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" aria-label="Video undangan digital di layar Samsung Galaxy S Ultra: tema Emas Klasik dengan nama mempelai, tanggal, hitung mundur, galeri foto, dan peta lokasi">
               <source src="assets/hero-video.mp4" type="video/mp4" />
@@ -815,24 +800,6 @@
       var open = box.classList.toggle("hidden") === false;
       btn.setAttribute("aria-expanded", open ? "true" : "false");
       btn.textContent = open ? "Sembunyikan Detail" : "Lihat Selengkapnya";
-    }
-    /* Form tangkap leads: nama + nomor WA + tanggal nikah -> terkirim ke WhatsApp pemilik */
-    function sendLead(e){
-      if (e) e.preventDefault();
-      var namaEl = document.getElementById("lead-nama");
-      var waEl = document.getElementById("lead-wa");
-      var tglEl = document.getElementById("lead-tgl");
-      var nama = namaEl ? namaEl.value.trim() : "";
-      var wa = waEl ? waEl.value.replace(/[^0-9+]/g, "") : "";
-      var tgl = tglEl ? tglEl.value : "";
-      if (!nama) { alert("Isi namanya dulu ya."); return false; }
-      var digits = wa.replace(/^\+/, "");
-      if (digits.length < 9) { alert("Nomor WhatsApp-nya belum lengkap."); return false; }
-      var tglTxt = tgl ? tgl : "belum ada tanggal";
-      var msg = "Halo, saya " + nama + ". Saya mau lihat contoh undangan nikah digital gratis. Nomor WA saya " + wa + ". Rencana tanggal nikah: " + tglTxt + ".";
-      if (typeof gtag === "function") { try { gtag("event", "generate_lead", { method: "whatsapp", event_category: "lead" }); } catch (err) {} }
-      window.open("https://wa.me/" + OWNER_WA + "?text=" + encodeURIComponent(msg), "_blank");
-      return false;
     }
     /* Pilihan terakhir pengguna di studio — dipakai supaya habis bayar langsung masuk ke undangan yang sama */
     var studioThemeId = "emas", pendingPayPkg = null;
