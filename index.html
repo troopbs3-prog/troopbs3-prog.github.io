@@ -360,6 +360,27 @@
       gtag('js', new Date());
       gtag('config', 'G-K6HRSJJCEV');
     </script>
+    <!-- Pelacak kunjungan Undangan (tidak kelihatan, tidak mengubah tampilan): kirim page + referrer ke Worker agency-live -->
+    <script>
+      (function(){
+        var EP = "https://agency-live.agency-live.workers.dev/api/undangan/jejak";
+        function kirim(type, label){
+          try {
+            fetch(EP, { method: "POST", mode: "cors", keepalive: true,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ page: location.pathname + location.search + location.hash, referrer: document.referrer || "", type: type, label: label || "" }) });
+          } catch (e) { /* jangan ganggu situs kalau pelacak mati */ }
+        }
+        function view(){ kirim("view", ""); }
+        if (document.readyState === "complete") view();
+        else window.addEventListener("load", view);
+        window.addEventListener("hashchange", view);
+        document.addEventListener("click", function(e){
+          var el = e.target && e.target.closest ? e.target.closest("a,button") : null;
+          if (el && /Buat Undangan Gratis/i.test(el.textContent || "")) kirim("click", "Buat Undangan Gratis");
+        });
+      })();
+    </script>
   </head>
   <body>
 
